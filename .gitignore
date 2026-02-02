@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+.env/
+.envrc
+.env.*
+conda.env
+env_*/
+
+# IDE
+.vscode/
+.idea/
+
+# Data & artifacts
+datasets/
+artifacts/
+outputs/
+logs/
+runs/
+checkpoints/
+metrics/
+results/
+
+# Large files / model outputs
+*.hdf5
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.npz
+*.npy
+*.mp4
+*.avi
+*.mov
+
+# OS
+.DS_Store
+Thumbs.db
