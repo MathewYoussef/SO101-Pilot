@@ -24,7 +24,10 @@ env_*/
 .idea/
 
 # Data & artifacts
-datasets/
+data/raw_lerobot/
+data/hdf5/
+data/videos/
+data/semantics/
 artifacts/
 outputs/
 logs/

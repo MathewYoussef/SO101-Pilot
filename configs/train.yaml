@@ -1,0 +1,8 @@
+# Training configuration (stub)
+train:
+  dataset_hdf5: "data/hdf5/demos_aug.hdf5"
+  reason_labels: "data/semantics/reason_labels.jsonl"
+  predicate_labels: "data/semantics/predicate_labels.jsonl"
+  batch_size: 8
+  max_steps: 1000
+  seed: 0

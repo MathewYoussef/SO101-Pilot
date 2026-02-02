@@ -1,0 +1,7 @@
+# Cosmos Transfer configuration (stub)
+transfer:
+  input_videos: "data/videos/original"
+  output_videos: "data/videos/augmented"
+  variants_per_demo: 3
+  control_spec_json: ""
+  seed: 0

@@ -1,41 +1,74 @@
 # SO101-Pilot
 
-SO-101 Sim-to-Real Multimodal Policy V0 — a proof-of-concept pipeline for learning a block-stacking policy that aligns **vision**, **action/proprio**, and **semantics**. The goal is not peak performance; the goal is a repeatable, end-to-end system that produces stable artifacts.
+SO-101 Sim-to-Real Multimodal Policy V0 — a proof-of-concept pipeline for learning a block-stacking policy that aligns vision, action/proprio, and semantics. V0 success means integration and repeatability, not peak performance.
+
+Note: Cosmos Transfer and Cosmos Reason will run on a separate machine from this repo's primary dev box.
 
 ## V0 Definition of Done
-An engineer can run a short sequence and produce:
-- `demos.hdf5` — canonical dataset converted from LeRobot
-- `demos_aug.hdf5` — augmented dataset (Cosmos Transfer) merged with originals
-- `reason_labels.jsonl` — structured semantic labels per episode (Cosmos Reason)
-- `policy_v0.pt` — trained multi-head policy checkpoint
-- `eval_metrics.json` + `eval_videos/*.mp4` — rollout evaluation outputs
+You are done with V0 when you can run an end-to-end sequence that produces:
+- `data/hdf5/demos.hdf5` (canonical dataset from LeRobot)
+- `data/hdf5/demos_aug.hdf5` (augmented dataset merged with originals)
+- `data/semantics/reason_labels.jsonl` (structured semantics per episode)
+- `outputs/checkpoints/policy_v0.pt` (multi-head policy checkpoint)
+- `outputs/reports/eval_metrics.json` + `outputs/eval_videos/*.mp4`
 
-## Pipeline (Non‑Negotiable Order)
-1. **Data conversion:** LeRobot → HDF5
-2. **Augmentation:** HDF5 → MP4 → Cosmos Transfer → MP4 → HDF5 → merge
-3. **Semantics:** Cosmos Reason → structured JSONL labels
-4. **Training:** multi‑head policy (actions + predicates)
-5. **Evaluation:** Isaac Lab closed‑loop rollouts + videos + metrics
+## Non-Negotiable Order
+1. LeRobot -> HDF5 conversion
+2. HDF5 -> MP4 -> Cosmos Transfer -> MP4 -> HDF5 -> merge
+3. Cosmos Reason -> structured JSONL labels
+4. Train multi-head policy (actions + predicates)
+5. Closed-loop rollout evaluation in Isaac Lab
 
-## Technical Thesis
-- Control is modeled as **multimodal next‑action prediction** with an explicit preference axis.
-- Policy predicts **ΔEEF + gripper** action chunks from vision + proprio (+ optional text).
-- A secondary head predicts **task predicates/progress** (grasp, on‑top, success/failure mode).
-- **Cosmos Transfer** broadens appearance while preserving alignment.
-- **Cosmos Reason** provides structured teacher/audit signals; Isaac Lab ground truth is primary.
+## Core Rules
+- HDF5 is the canonical dataset format.
+- Visual augmentation must preserve action/state alignment.
+- Actions are Delta-EEF + gripper. Joints are debug/reference only.
+- Evaluation is closed-loop rollouts (loss curves do not prove progress).
+- Every step emits artifacts, run IDs, config snapshots, and checksums.
 
-## Rules of Engagement
-1. **Build the pipeline, not perfection.** Ugly policies are fine early.
-2. **Canonicalize early.** HDF5 is the single source of truth.
-3. **Preserve alignment at all costs.** Augmentations must stay in sync.
-4. **Actions are ΔEEF + gripper.** Joints are debug/reference only.
-5. **Reason is a teacher, not truth.** Use it for structure, not primary success.
-6. **Evaluate with closed‑loop rollouts.** Loss curves don’t prove progress.
-7. **Every step emits artifacts + checksums.** No manual steps.
-8. **Minimize moving parts.** Single camera, short episodes, small configs.
+## Repository Layout (V0 scaffold)
+```
+configs/
+  dataset.yaml
+  transfer.yaml
+  reason.yaml
+  model.yaml
+  train.yaml
+  eval.yaml
 
-## Success Criteria (V0)
-If we can run the full loop and consistently obtain a merged augmented dataset, a trained checkpoint, rollout videos, and a stable metrics report across reruns — V0 is achieved.
+data/
+  raw_lerobot/
+  hdf5/
+  videos/original/
+  videos/augmented/
+  semantics/
+
+scripts/
+  00_fetch_hf_dataset.py
+  01_lerobot_to_hdf5.py
+  02_export_mp4_from_hdf5.py
+  03_run_transfer.py
+  04_mp4_to_hdf5_augmented.py
+  05_merge_hdf5.py
+  06_run_reason_labels.py
+  07_train_multimodal_policy.py
+  08_eval_rollouts_isaaclab.py
+  09_report.py
+
+isaaclab_ext/
+  robots/so101/
+  tasks/so101_block_stack/
+
+models/
+  tokenizers.py
+  multimodal_transformer.py
+  heads.py
+
+outputs/
+  checkpoints/
+  eval_videos/
+  reports/
+```
 
 ## Status
-Scaffold in progress. Next steps: define schemas, I/O contracts, run configs, and a minimal end‑to‑end script chain.
+Scaffold only. No implementation yet. Next: fill in configs, define schemas, and wire each script end-to-end.

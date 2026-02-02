@@ -1,0 +1,8 @@
+# Dataset configuration (stub)
+dataset:
+  hf_id: ""
+  local_dir: "data/raw_lerobot"
+  output_hdf5: "data/hdf5/demos.hdf5"
+  camera_names: []
+  action_space: "delta_eef"
+  seed: 0

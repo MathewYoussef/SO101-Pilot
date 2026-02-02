@@ -1,0 +1,6 @@
+# Model configuration (stub)
+model:
+  name: "multimodal_transformer"
+  action_chunk: 1
+  use_text: false
+  predicate_head: true

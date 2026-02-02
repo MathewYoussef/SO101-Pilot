@@ -1,0 +1,8 @@
+[project]
+name = "so101-pilot"
+version = "0.0.0"
+description = "SO-101 Sim-to-Real Multimodal Policy V0 scaffold"
+requires-python = ">=3.10"
+
+[tool]
+# Placeholder for future tooling configs

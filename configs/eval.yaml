@@ -1,0 +1,7 @@
+# Evaluation configuration (stub)
+eval:
+  policy_checkpoint: "outputs/checkpoints/policy_v0.pt"
+  num_rollouts: 20
+  output_metrics: "outputs/reports/eval_metrics.json"
+  output_videos: "outputs/eval_videos"
+  seed: 0

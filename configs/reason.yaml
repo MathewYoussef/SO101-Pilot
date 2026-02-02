@@ -1,0 +1,6 @@
+# Cosmos Reason configuration (stub)
+reason:
+  input_hdf5: "data/hdf5/demos_aug.hdf5"
+  output_labels: "data/semantics/reason_labels.jsonl"
+  schema_version: "v0"
+  sample_keyframes: ["start", "mid", "end"]
