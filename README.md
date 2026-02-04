@@ -41,7 +41,7 @@ data/
   hdf5/
   videos/original/
   videos/augmented/
-  semantics/
+  semantics/  # reason_labels.jsonl, predicate_labels.jsonl
 
 scripts/
   00_fetch_hf_dataset.py
@@ -51,6 +51,7 @@ scripts/
   04_mp4_to_hdf5_augmented.py
   05_merge_hdf5.py
   06_run_reason_labels.py
+  06a_generate_predicates_from_sim.py
   07_train_multimodal_policy.py
   08_eval_rollouts_isaaclab.py
   09_report.py
