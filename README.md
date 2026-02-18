@@ -45,6 +45,7 @@ data/
 
 scripts/
   00_fetch_hf_dataset.py
+  00a_validate_transfer.py
   01_lerobot_to_hdf5.py
   02_export_mp4_from_hdf5.py
   03_run_transfer.py
@@ -55,6 +56,7 @@ scripts/
   07_train_multimodal_policy.py
   08_eval_rollouts_isaaclab.py
   09_report.py
+  lib/hdf5_adapter.py
 
 isaaclab_ext/
   robots/so101/
@@ -72,4 +74,16 @@ outputs/
 ```
 
 ## Status
-Scaffold only. No implementation yet. Next: fill in configs, define schemas, and wire each script end-to-end.
+Scaffold plus initial data-ingest hardening:
+- `scripts/00a_validate_transfer.py` validates incoming HDF5/videos and writes manifest/report.
+- `scripts/01_lerobot_to_hdf5.py` promotes incoming HDF5 to canonical `data/hdf5/demos.hdf5`.
+- `scripts/lib/hdf5_adapter.py` provides one loader/validator path for current HDF5 schema.
+
+## Immediate Data Bring-up Commands
+Assuming files were transferred into `data/hdf5/incoming` and `data/videos/incoming`:
+
+```bash
+source /home/mathewyoussef/isaac-lab/env_isaaclab/bin/activate
+python scripts/00a_validate_transfer.py
+python scripts/01_lerobot_to_hdf5.py
+```

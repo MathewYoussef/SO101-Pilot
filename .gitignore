@@ -28,6 +28,7 @@ data/raw_lerobot/
 data/hdf5/
 data/videos/
 data/semantics/
+data/manifests/
 artifacts/
 outputs/
 logs/

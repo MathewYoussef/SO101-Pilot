@@ -2,7 +2,12 @@
 dataset:
   hf_id: ""
   local_dir: "data/raw_lerobot"
+  incoming_hdf5: "data/hdf5/incoming/demos.hdf5"
   output_hdf5: "data/hdf5/demos.hdf5"
-  camera_names: []
+  incoming_video_root: "data/videos/incoming"
+  camera_names: ["front"]
+  transfer_manifest_jsonl: "data/manifests/episode_video_manifest.jsonl"
+  transfer_report_json: "data/manifests/incoming_validation_report.json"
+  canonical_meta_json: "data/manifests/canonical_hdf5_metadata.json"
   action_space: "delta_eef"
   seed: 0
