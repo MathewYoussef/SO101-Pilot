@@ -92,16 +92,24 @@ python scripts/01_lerobot_to_hdf5.py
 ## Cross-Machine Protocol (Transfer + Reason)
 Use a single upload and single download per run cycle to keep lineage deterministic.
 
-1. Build Transfer run bundle locally
+1. Export canonical HDF5 episodes to deterministic per-demo MP4 files
 ```bash
 source /home/mathewyoussef/isaac-lab/env_isaaclab/bin/activate
+python scripts/02_export_mp4_from_hdf5.py \
+  --input-hdf5 data/hdf5/demos.hdf5 \
+  --video-root data/videos/incoming \
+  --output-dir data/videos/original
+```
+
+2. Build Transfer run bundle locally
+```bash
 python scripts/03_run_transfer.py \
   --input-videos-dir data/videos/original \
   --variants-per-demo 3 \
   --base-seed 1000
 ```
 
-2. Estimate compute budget from pilot throughput
+3. Estimate compute budget from pilot throughput
 ```bash
 python scripts/03a_transfer_budget_estimator.py \
   --pilot-output-seconds <pilot_output_video_seconds> \
@@ -110,12 +118,12 @@ python scripts/03a_transfer_budget_estimator.py \
   --target-num-gpus 1
 ```
 
-3. Run Cosmos Transfer on remote machine using generated run bundle:
+4. Run Cosmos Transfer on remote machine using generated run bundle:
 - `data/manifests/transfer_runs/<run_id>/transfer_jobs.jsonl`
 - `data/manifests/transfer_runs/<run_id>/transfer_input_checksums.sha256`
 - `data/manifests/transfer_runs/<run_id>/requests/job_*.json`
 
-4. Build Reason request set (all originals + stratified augmented subset)
+5. Build Reason request set (all originals + stratified augmented subset)
 ```bash
 python scripts/06_run_reason_labels.py \
   --original-manifest-jsonl data/manifests/episode_video_manifest.jsonl \
@@ -124,4 +132,4 @@ python scripts/06_run_reason_labels.py \
   --seed 0
 ```
 
-5. Send `data/manifests/reason_requests.jsonl` to remote Reason machine, execute inference there, and return structured labels JSONL for local ingest/training.
+6. Send `data/manifests/reason_requests.jsonl` to remote Reason machine, execute inference there, and return structured labels JSONL for local ingest/training.

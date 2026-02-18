@@ -5,6 +5,10 @@ dataset:
   incoming_hdf5: "data/hdf5/incoming/demos.hdf5"
   output_hdf5: "data/hdf5/demos.hdf5"
   incoming_video_root: "data/videos/incoming"
+  export_videos_dir: "data/videos/original"
+  export_manifest_jsonl: "data/manifests/transfer_export_manifest.jsonl"
+  export_checksums_sha256: "data/manifests/transfer_export_checksums.sha256"
+  export_report_json: "data/manifests/transfer_export_report.json"
   camera_names: ["front"]
   transfer_manifest_jsonl: "data/manifests/episode_video_manifest.jsonl"
   transfer_report_json: "data/manifests/incoming_validation_report.json"
