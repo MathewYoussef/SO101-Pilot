@@ -1,6 +1,14 @@
-# Cosmos Reason configuration (stub)
+# Cosmos Reason configuration
 reason:
   input_hdf5: "data/hdf5/demos_aug.hdf5"
   output_labels: "data/semantics/reason_labels.jsonl"
   schema_version: "v0"
   sample_keyframes: ["start", "mid", "end"]
+  original_manifest_jsonl: "data/manifests/episode_video_manifest.jsonl"
+  transfer_jobs_jsonl: ""  # Set to data/manifests/transfer_runs/<run_id>/transfer_jobs.jsonl
+  include_original: true
+  augmented_sample_ratio: 0.25
+  augmented_sample_max: null
+  seed: 0
+  requests_jsonl: "data/manifests/reason_requests.jsonl"
+  sampling_report_json: "data/manifests/reason_sampling_report.json"

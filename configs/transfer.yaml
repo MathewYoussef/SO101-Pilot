@@ -1,7 +1,18 @@
-# Cosmos Transfer configuration (stub)
+# Cosmos Transfer configuration
 transfer:
-  input_videos: "data/videos/original"
-  output_videos: "data/videos/augmented"
+  input_videos_dir: "data/videos/original"
+  input_video_glob: "demo_*_*.mp4"
+  run_root: "data/manifests/transfer_runs"
   variants_per_demo: 3
-  control_spec_json: ""
-  seed: 0
+  base_seed: 1000
+  prompt_profiles: ["lighting", "texture", "sensor"]
+  remote_input_root: "/workspace/so101/transfer_input"
+  remote_output_root: "/workspace/so101/transfer_output"
+
+budget:
+  avg_gpu_power_watts: 350
+  pilot_num_gpus: 1
+  target_num_gpus: 1
+  # Fill pilot measurements before running estimator:
+  pilot_output_seconds: 0
+  pilot_wall_seconds: 0

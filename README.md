@@ -49,6 +49,7 @@ scripts/
   01_lerobot_to_hdf5.py
   02_export_mp4_from_hdf5.py
   03_run_transfer.py
+  03a_transfer_budget_estimator.py
   04_mp4_to_hdf5_augmented.py
   05_merge_hdf5.py
   06_run_reason_labels.py
@@ -87,3 +88,40 @@ source /home/mathewyoussef/isaac-lab/env_isaaclab/bin/activate
 python scripts/00a_validate_transfer.py
 python scripts/01_lerobot_to_hdf5.py
 ```
+
+## Cross-Machine Protocol (Transfer + Reason)
+Use a single upload and single download per run cycle to keep lineage deterministic.
+
+1. Build Transfer run bundle locally
+```bash
+source /home/mathewyoussef/isaac-lab/env_isaaclab/bin/activate
+python scripts/03_run_transfer.py \
+  --input-videos-dir data/videos/original \
+  --variants-per-demo 3 \
+  --base-seed 1000
+```
+
+2. Estimate compute budget from pilot throughput
+```bash
+python scripts/03a_transfer_budget_estimator.py \
+  --pilot-output-seconds <pilot_output_video_seconds> \
+  --pilot-wall-seconds <pilot_wall_seconds> \
+  --pilot-num-gpus 1 \
+  --target-num-gpus 1
+```
+
+3. Run Cosmos Transfer on remote machine using generated run bundle:
+- `data/manifests/transfer_runs/<run_id>/transfer_jobs.jsonl`
+- `data/manifests/transfer_runs/<run_id>/transfer_input_checksums.sha256`
+- `data/manifests/transfer_runs/<run_id>/requests/job_*.json`
+
+4. Build Reason request set (all originals + stratified augmented subset)
+```bash
+python scripts/06_run_reason_labels.py \
+  --original-manifest-jsonl data/manifests/episode_video_manifest.jsonl \
+  --transfer-jobs-jsonl data/manifests/transfer_runs/<run_id>/transfer_jobs.jsonl \
+  --augmented-sample-ratio 0.25 \
+  --seed 0
+```
+
+5. Send `data/manifests/reason_requests.jsonl` to remote Reason machine, execute inference there, and return structured labels JSONL for local ingest/training.
