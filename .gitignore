@@ -29,6 +29,7 @@ data/hdf5/
 data/videos/
 data/semantics/
 data/manifests/
+data/remote_handoff/
 artifacts/
 outputs/
 logs/

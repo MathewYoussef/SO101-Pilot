@@ -92,6 +92,12 @@ python scripts/01_lerobot_to_hdf5.py
 ## Cross-Machine Protocol (Transfer + Reason)
 Use a single upload and single download per run cycle to keep lineage deterministic.
 
+Dedicated pre-pilot intake path on this box:
+`/home/mathewyoussef/lab-projects/SO101-Pilot/data/remote_handoff/prepilot_incoming`
+
+Detailed handoff instructions:
+`docs/cross_machine_handoff.md`
+
 1. Export canonical HDF5 episodes to deterministic per-demo MP4 files
 ```bash
 source /home/mathewyoussef/isaac-lab/env_isaaclab/bin/activate
